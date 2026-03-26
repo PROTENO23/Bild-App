@@ -50,7 +50,7 @@ function App() {
       throw new Error(detail || 'The webhook did not return an image.')
     } catch (err) {
       if (err instanceof TypeError && err.message === 'Failed to fetch') {
-        setError('Could not reach the webhook. Make sure n8n is running on localhost:5678.')
+        setError('Could not reach the webhook. Make sure n8n is running and CORS is allowed.')
       } else if (err instanceof Error) {
         const msg = err.message.toLowerCase()
         const isContentFilter = msg.includes('invalid response') || msg.includes('blocked') || msg.includes('safety') || msg.includes('prohibited')
