@@ -4,6 +4,8 @@ import ResultDisplay from './components/ResultDisplay'
 
 const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL as string
 const APP_PASSWORD = import.meta.env.VITE_APP_PASSWORD as string
+const WEBHOOK_AUTH_NAME = import.meta.env.VITE_WEBHOOK_AUTH_NAME as string
+const WEBHOOK_AUTH_VALUE = import.meta.env.VITE_WEBHOOK_AUTH_VALUE as string
 
 function App() {
   const [image1, setImage1] = useState<File | null>(null)
@@ -38,8 +40,14 @@ function App() {
       formData.append('image1', image1)
       formData.append('image2', image2)
 
+      const headers: Record<string, string> = {}
+      if (WEBHOOK_AUTH_NAME && WEBHOOK_AUTH_VALUE) {
+        headers[WEBHOOK_AUTH_NAME] = WEBHOOK_AUTH_VALUE
+      }
+
       const response = await fetch(WEBHOOK_URL, {
         method: 'POST',
+        headers,
         body: formData,
       })
 
